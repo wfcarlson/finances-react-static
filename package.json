@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aws-sdk": "^2.434.0",
+    "create-react-class": "^15.6.3",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "react-tappable": "^1.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

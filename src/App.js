@@ -1,25 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import LoginComponent from './LoginComponent.js';
+import BirdDetectionComponent from './BirdDetectionComponent.js';
+import FinancesView from './finances/FinancesView.js';
 import './App.css';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    if (localStorage.getItem("token"))
+    {
+      this.state = {
+        token: localStorage.getItem("token")
+      }
+    }
+    else {
+      this.state = {
+        token: ""
+      }
+    }
+    
+  }
+
+  submit = (password) => {
+    this.setState({token: password});
+    localStorage.setItem("token", password);
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        { this.state.token ? 
+          <FinancesView token={ this.state.token } />
+           : 
+          (
+          <div>
+            <LoginComponent submit={this.submit} /> 
+            <BirdDetectionComponent />
+          </div>
+          )
+        }
       </div>
     );
   }
