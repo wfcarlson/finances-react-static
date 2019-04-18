@@ -23,6 +23,19 @@
   color: #61dafb;
 }
 
+input {
+  margin-bottom: 7px;
+}
+
+select {
+  margin-bottom: 7px;
+}
+
+table {
+  border-spacing: 20px 8px;
+  border-collapse: separate
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

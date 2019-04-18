@@ -202,11 +202,11 @@ class FinancesView extends Component {
 
                         </div>
                         <div className='col-lg-6'>
-                            <TotalsView token={this.props.token} month={this.months[this.state.nav_date.getMonth()]} year={this.state.nav_date.getFullYear()} expense_categories={this.state.expense_categories} expense_total={this.state.expense_total} income_total={this.state.income_total} />
+                            <TotalsView token={this.props.token} month={this.months[this.state.nav_date.getMonth()]} year={this.state.nav_date.getFullYear()} expense_categories={this.state.expense_categories} expense_total={this.state.expense_total} income_total={this.state.income_total} getTransactions={this.getTransactions}/>
                         </div>
                     </div>
                 </div>
-                <TransactionListView incomes={this.state.incomes} expenses={this.state.expenses} token={this.props.token} />
+                <TransactionListView incomes={this.state.incomes} expenses={this.state.expenses} token={this.props.token} getTransactions={this.getTransactions}/>
                 <MonthNavigation setDate={this.setDate} selected_date={this.state.nav_date}/>
             </div>
         );

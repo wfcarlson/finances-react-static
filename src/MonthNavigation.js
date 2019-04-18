@@ -39,7 +39,7 @@ export default class MonthNavigation extends Component {
     }
 
     getMonths = () => {
-      var numPages = 5;
+      var numPages = 3;
 
       var twoMonthsBefore = new Date(this.state.selected_date.getTime());
       twoMonthsBefore.setDate(1);
@@ -110,11 +110,8 @@ export default class MonthNavigation extends Component {
       return (
         <div>
           <ul className="pagination">
-            <li className={ 'enabled' }>
-                <a onClick={ () => { this.setDate(prevDate) }}>First</a>
-            </li>
             <li className='enabled'>
-                <a onClick={ () => { this.setDate(prevDate) }}>Previous Month</a>
+                <a onClick={ () => { this.setDate(prevDate) }}>Previous</a>
             </li>
             {months.map((date, index) =>
                 <li key={index} className={this.state.selected_date.getMonth() === date.getMonth() ? 'active enabled' : 'enabled'}>
@@ -122,10 +119,7 @@ export default class MonthNavigation extends Component {
                 </li>
             )}
             <li className={ hasNext ? 'enabled' : 'disabled'}>
-                <a onClick={() => { if (hasNext){ this.setDate(nextDate)}}}>Next Month</a>
-            </li>
-            <li className={ hasNext ? 'enabled' : 'disabled'}>
-                <a onClick={() => { if (hasNext){ this.setDate(today)}}}>Last</a>
+                <a onClick={() => { if (hasNext){ this.setDate(nextDate)}}}>Next</a>
             </li>
           </ul>
         </div>
