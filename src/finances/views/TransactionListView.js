@@ -6,7 +6,8 @@ class TransactionListView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editing: ''
+            editing: '',
+            expanded: '',
         }
     }
 
@@ -25,7 +26,7 @@ class TransactionListView extends Component {
             
             fetch(API_ROOT + '/transactions/', data)
                 .then(() => { 
-                    this.getTransactions();
+                    this.props.getTransactions();
                 }) 
                 .catch(err => { console.log(err); }); 
         }
@@ -62,10 +63,37 @@ class TransactionListView extends Component {
                 data.json()
                     .then(() => { 
                         this.setState({editing: ''})
-                        this.getTransactions();
+                        this.props.getTransactions();
                     }) 
             })
             .catch(err => { console.log(err); }); 
+    }
+
+    formatDate = (date) => {
+        var nums = date.match(/\d+/g)
+        return '' + nums[1] + '-' + nums[2];
+    }
+
+    toggleExpand = (i) => {
+        return () => {
+            var id = '#expense_' + i + '_info';
+            if (id === this.state.expanded) 
+            {
+                var myElement = document.querySelector(id);
+                myElement.style.height = '0px';
+                this.setState({expanded: ''})
+            }
+            else {
+                if (this.state.expanded) {
+                    var myElement = document.querySelector(this.state.expanded);
+                    myElement.style.height = '0px';
+                }
+
+                var myElement = document.querySelector(id);
+                myElement.style.height = 'auto';
+                this.setState({expanded: id})
+            }
+        }
     }
 
     render () {
@@ -103,7 +131,7 @@ class TransactionListView extends Component {
                                     { this.state.editing.transaction_id === income.transaction_id ? 
                                         (
                                             <label>
-                                                <select value={income.finances_category} onChange={this.handleEdit(income)}>
+                                                <select value={income.finances_category} onChange={this.handleEdit('finances_category')}>
                                                     <option value="other">Other</option>
                                                     <option value="primary income">Primary Income</option>
                                                     <option value="tax return">Tax Return</option>
@@ -133,64 +161,67 @@ class TransactionListView extends Component {
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Amount</th>
                             <th>Name</th>
-                            <th>Category</th>
-                            <th>Delete</th>
+                            <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.expenses.map((expense) => 
+                        {this.props.expenses.map((expense, i) => 
 
-                            (<tr style={{ cursor:'pointer' }} onClick={this.setEdit(expense)} key={expense['transaction_id']}>
-                                <td>{expense['date']}</td>
-                                <td>{expense['amount']}</td>
-                                <td>
-                                    { this.state.editing.transaction_id === expense.transaction_id ? 
-                                        (
-                                            <input type='text' value={this.state.editing.name} onChange={ this.handleEdit('name') }></input>
-                                        )
+                            (<>
+                                <tr style={{ cursor:'pointer' }} onClick={this.toggleExpand(i)} key={expense['transaction_id']}>
+                                    <td align="left" >{ this.formatDate(expense['date']) }</td>
+                                    <td align="left">
+                                        { this.state.editing.transaction_id === expense.transaction_id ? 
+                                            (
+                                                <input type='text' value={this.state.editing.name} onChange={ this.handleEdit('name') }></input>
+                                            )
+                                                :
+                                            ( expense['name'] )
+                                        }
+                                    </td>
+                                    <td>{expense['amount']}</td>
+                                    { /*<td>
+                                        { this.state.editing.transaction_id === expense.transaction_id ? 
+                                            (
+                                                <label>
+                                                    <select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') }>
+                                                        <option value="other">Other</option>
+                                                        <option value="rent/parking">Rent/Parking</option>
+                                                        <option value="utilities">Utilities</option>
+                                                        <option value="car payment">Car Payment</option>
+                                                        <option value="car insurance">Car Insurance</option>
+                                                        <option value="gas/transportation">Gas/Transportation</option>
+                                                        <option value="food out">Food Out</option>
+                                                        <option value="alcohol">Alcohol</option>
+                                                        <option value="groceries">Groceries</option>
+                                                        <option value="subscriptions">Subscriptions</option>
+                                                        <option value="personal care">Personal Care</option>
+                                                        <option value="phone bill">Phone Bill</option>
+                                                        <option value="gym">Gym</option>
+                                                        <option value="entertainment">Entertainment</option>
+                                                        <option value="discretionary">Discretionary</option>
+                                                    </select>
+                                                </label>
+                                            )
+                                                :
+                                            (
+                                                expense.finances_category
+                                            )
+                                        }
+                                        
+                                    </td>
+                                    <td onClick={this.handleDelete(expense)} style={{ cursor: 'pointer' }}>X</td>}
+                                    { this.state.editing.transaction_id === expense.transaction_id ?
+                                        (<td><button onClick={this.saveEdit}>save</button></td>)
                                             :
-                                        ( expense['name'] )
-                                    }
-                                </td>
-                                <td>
-                                    { this.state.editing.transaction_id === expense.transaction_id ? 
-                                        (
-                                            <label>
-                                                <select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') }>
-                                                    <option value="other">Other</option>
-                                                    <option value="rent/parking">Rent/Parking</option>
-                                                    <option value="utilities">Utilities</option>
-                                                    <option value="car payment">Car Payment</option>
-                                                    <option value="car insurance">Car Insurance</option>
-                                                    <option value="gas/transportation">Gas/Transportation</option>
-                                                    <option value="food out">Food Out</option>
-                                                    <option value="alcohol">Alcohol</option>
-                                                    <option value="groceries">Groceries</option>
-                                                    <option value="subscriptions">Subscriptions</option>
-                                                    <option value="personal care">Personal Care</option>
-                                                    <option value="phone bill">Phone Bill</option>
-                                                    <option value="gym">Gym</option>
-                                                    <option value="entertainment">Entertainment</option>
-                                                    <option value="discretionary">Discretionary</option>
-                                                </select>
-                                            </label>
-                                        )
-                                            :
-                                        (
-                                            expense.finances_category
-                                        )
-                                    }
-                                    
-                                </td>
-                                <td onClick={this.handleDelete(expense)} style={{ cursor: 'pointer' }}>X</td>
-                                { this.state.editing.transaction_id === expense.transaction_id ?
-                                    (<td><button onClick={this.saveEdit}>save</button></td>)
-                                        :
-                                    (null)
-                                }
-                            </tr>)
+                                        (null)
+                                    } */ }
+                                </tr>
+                                <div className="expander" id={'expense_' + i + '_info'}>
+                                    <p>{ expense.finances_category }</p>
+                                </div>
+                            </>)
                         )}
                     </tbody>
                 </table>

@@ -60,7 +60,7 @@ class TotalsView extends Component {
             
             return (
                 <tr key={ key } >
-                    <td>
+                    <td align='left'>
                         { key }
                     </td>
                     <td style={{ color:color }}>
@@ -74,7 +74,7 @@ class TotalsView extends Component {
         })
 
         cats.push(  
-            <tr key={"total"} >
+            <tr align='left' key={"total"} >
                 <td>
                     Total
                 </td>
@@ -91,10 +91,20 @@ class TotalsView extends Component {
     }
 
     render() {
+
+        var color = 'black';
+        if (this.props.expense_total > this.props.income_total) {
+            color = 'red';
+        }
+        else if (this.props.income_total > this.props.expense_total) {
+            color = 'green';
+        }
+
         return (
             <div>
                 <h1>Totals: {this.props.month}, {this.props.year}</h1>
-                <table style={{ margin: 'auto' }}>
+                <div>
+                <table style={{ width: '100%' }}>
                     <thead>
                         <tr>
                             <th>Income</th>
@@ -104,13 +114,13 @@ class TotalsView extends Component {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
+                            <td align='left'>
                                 {this.props.income_total}
                             </td>
-                            <td>
+                            <td align='left'>
                                 {this.props.expense_total}
                             </td>
-                            <td>
+                            <td align='left' style={{ color: color }}>
                                 { Math.round((this.props.income_total - this.props.expense_total) * 100) / 100 }
                             </td>
                         </tr>
@@ -119,7 +129,7 @@ class TotalsView extends Component {
 
                 <br/>
 
-                <table style={{ margin: 'auto' }}>
+                <table style={{ width: '100%' }}>
                     <thead>
                         <tr>
                             <th>
@@ -131,6 +141,7 @@ class TotalsView extends Component {
                         { this.renderCategories(this.props.expense_categories, this.props.expense_total) }
                     </tbody>
                 </table>
+                </div>
             </div>
         )
     }
