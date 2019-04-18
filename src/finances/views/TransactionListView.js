@@ -103,7 +103,7 @@ class TransactionListView extends Component {
                                     { this.state.editing.transaction_id === income.transaction_id ? 
                                         (
                                             <label>
-                                                <select value={income.finances_category} onChange={this.handleUpdate(income)}>
+                                                <select value={income.finances_category} onChange={this.handleEdit(income)}>
                                                     <option value="other">Other</option>
                                                     <option value="primary income">Primary Income</option>
                                                     <option value="tax return">Tax Return</option>
