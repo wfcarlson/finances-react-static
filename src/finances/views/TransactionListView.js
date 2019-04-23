@@ -77,9 +77,9 @@ class TransactionListView extends Component {
         return '' + nums[1] + '-' + nums[2];
     }
 
-    toggleExpand = (i) => {
+    toggleExpand = (transaction_type, i) => {
         return () => {
-            var id = '#expense_' + i + '_info';
+            var id = '#' + transaction_type + '_' + i + '_info';
             if (id === this.state.expanded) 
             {
                 var myElement = document.querySelector(id);
@@ -115,7 +115,7 @@ class TransactionListView extends Component {
                 {this.props.incomes.map((income, i) => 
                     
                     (<>
-                        <div style={{ marginRight: '10px', marginLeft: '10px', cursor:'pointer', display: 'flex', flexDirection: 'row' }} onClick={this.toggleExpand(i)} key={income['transaction_id']}>
+                        <div style={{ marginRight: '10px', marginLeft: '10px', cursor:'pointer', display: 'flex', flexDirection: 'row' }} onClick={this.toggleExpand('income', i)} key={income['transaction_id']}>
                             <div style={{ width: '40px',marginBottom: '5px'}}>{ this.formatDate(income['date']) }</div>
                             <div style={{ maxWidth: '245px', marginRight: 'auto', marginLeft: '15px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                 { this.state.editing.transaction_id === income.transaction_id ? 
@@ -128,7 +128,7 @@ class TransactionListView extends Component {
                             </div>
                             <div style={{ width: '50px', marginLeft: '15px'}}>{income['amount']}</div>
                         </div>
-                        <div style={{ marginRight: '10px', marginLeft: '10px', marginBottom: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'row', borderBottom: '2px solid lightgrey'}} onClick={this.toggleExpand(i)} className="expander" id={'expense_' + i + '_info'}>
+                        <div style={{ marginRight: '10px', marginLeft: '10px', marginBottom: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'row', borderBottom: '2px solid lightgrey'}} onClick={this.toggleExpand(i)} className="expander" id={'income_' + i + '_info'}>
                             <div style={{ width: '40px', marginBottom: '5px'}}>
                                 { this.state.editing.transaction_id === income.transaction_id ? 
                                     (
@@ -167,7 +167,7 @@ class TransactionListView extends Component {
                 {this.props.expenses.map((expense, i) => 
 
                     (<>
-                        <div style={{ marginRight: '10px', marginLeft: '10px', cursor:'pointer', display: 'flex', flexDirection: 'row' }} onClick={this.toggleExpand(i)} key={expense['transaction_id']}>
+                        <div style={{ marginRight: '10px', marginLeft: '10px', cursor:'pointer', display: 'flex', flexDirection: 'row' }} onClick={this.toggleExpand('expense', i)} key={expense['transaction_id']}>
                             <div style={{ width: '40px',marginBottom: '5px'}}>{ this.formatDate(expense['date']) }</div>
                             <div style={{ maxWidth: '245px', marginRight: 'auto', marginLeft: '15px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                 { this.state.editing.transaction_id === expense.transaction_id ? 

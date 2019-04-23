@@ -198,7 +198,7 @@ class FinancesView extends Component {
                 <div className='container'>
                     <div className="row">
                         <div className='col-lg-6' >
-                            <NewTransactionFormView />
+                            <NewTransactionFormView nav_date={this.state.nav_date} token={this.props.token} getTransactions={this.getTransactions} />
 
                         </div>
                         <div className='col-lg-6'>

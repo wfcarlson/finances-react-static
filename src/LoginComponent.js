@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { API_ROOT } from './config.js';
+var Crypto = require('crypto-js');
+
 
 class LoginComponent extends Component {
 
@@ -25,7 +27,9 @@ class LoginComponent extends Component {
     };
 
     fetch(API_ROOT + '/transactions/', data)
-        .then(() => { this.props.submit(this.state.password) }) 
+        .then(() => {
+          this.props.submit(Crypto.SHA256(this.state.password).toString()) 
+        }) 
         .catch(() => { alert('Incorrect password')});
   
   }
