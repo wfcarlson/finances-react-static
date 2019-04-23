@@ -25,7 +25,7 @@ class NewTransactionFormView extends Component {
     submit = () => {
         var date_str = '' + new Date().getFullYear() + '-'
         var day;
-        var month = this.state.nav_date.getMonth() + 1;
+        var month = this.props.nav_date.getMonth() + 1;
         var month_str = ''
 
         if (month < 10)
@@ -73,7 +73,7 @@ class NewTransactionFormView extends Component {
                             amount: 0.00,
                             name: "",
                         });
-                        this.getTransactions();
+                        this.props.getTransactions();
                     }) 
             })
             .catch(err => { console.log(err); }); 
