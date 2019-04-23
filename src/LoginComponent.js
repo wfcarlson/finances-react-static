@@ -21,7 +21,7 @@ class LoginComponent extends Component {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': this.state.password
+        'x-api-key': Crypto.SHA256(this.state.password).toString()
       },
       mode: 'cors',
     };
