@@ -3,6 +3,7 @@ import MonthNavigation from '../MonthNavigation.js';
 import NewTransactionFormView from './views/NewTransactionFormView.js';
 import TotalsView from './views/TotalsView.js';
 import TransactionListView from './views/TransactionListView.js';
+import Pie from './graphs/Pie.js';
 import { API_ROOT } from '../config.js';
 
 class FinancesView extends Component {
@@ -196,6 +197,11 @@ class FinancesView extends Component {
             <div>
                 <button onClick={this.logOut}>Log Out</button>
                 <div className='container'>
+                    <div className="row">
+                        <div className="col-12">
+                            <Pie data={this.state.expense_categories}/>
+                        </div>
+                    </div>
                     <div className="row">
                         <div className='col-lg-6' >
                             <NewTransactionFormView nav_date={this.state.nav_date} token={this.props.token} getTransactions={this.getTransactions} />
