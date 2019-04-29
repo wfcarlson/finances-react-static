@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LoginComponent from './LoginComponent.js';
 import BirdDetectionComponent from './BirdDetectionComponent.js';
 import FinancesView from './finances/FinancesView.js';
+import Header from './header/Header.js';
 import './App.css';
 
 class App extends Component {
@@ -31,7 +32,10 @@ class App extends Component {
     return (
       <div className="App">
         { this.state.token ? 
-          <FinancesView token={ this.state.token } />
+          <>
+            <Header token={ this.state.token } />
+            <FinancesView token={ this.state.token } />
+          </>
            : 
           (
           <div>

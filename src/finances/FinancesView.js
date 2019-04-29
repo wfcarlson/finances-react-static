@@ -62,11 +62,6 @@ class FinancesView extends Component {
         });
     }
 
-    logOut = () => {
-        localStorage.removeItem('token');
-        window.location.reload();
-    }   
-
     compareByDate = (a, b) => {
         var date1 = new Date(a['date']);
         var date2 = new Date(b['date']);
@@ -194,7 +189,6 @@ class FinancesView extends Component {
 
         return (
             <div>
-                <button onClick={this.logOut}>Log Out</button>
                 <div className='container'>
                     <div className="row">
                         <div className='col-lg-6' >
