@@ -114,7 +114,7 @@ class TransactionListView extends Component {
                 </div>
                 {this.props.incomes.map((income, i) => 
                     
-                    (<>
+                    (<div key={"income_" + i}>
                         <div style={{ marginRight: '10px', marginLeft: '10px', cursor:'pointer', display: 'flex', flexDirection: 'row' }} onClick={this.toggleExpand('income', i)} key={income['transaction_id']}>
                             <div style={{ width: '40px',marginBottom: '5px'}}>{ this.formatDate(income['date']) }</div>
                             <div style={{ maxWidth: '245px', marginRight: 'auto', marginLeft: '15px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -156,7 +156,7 @@ class TransactionListView extends Component {
                             </div>
                             <div style={{ width: '50px', marginLeft: '15px' }} onClick={this.handleDelete(income)}>X</div>
                         </div>
-                    </>)
+                    </div>)
                 )}
                 <h1 id="expenses">Expenses</h1>
                 <div style={{ marginRight: '10px', marginLeft: '10px', marginBottom: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'row', borderBottom: '2px solid black'}} >
@@ -166,7 +166,7 @@ class TransactionListView extends Component {
                 </div>
                 {this.props.expenses.map((expense, i) => 
 
-                    (<>
+                    (<div key={"expense_" + i}>
                         <div style={{ marginRight: '10px', marginLeft: '10px', cursor:'pointer', display: 'flex', flexDirection: 'row' }} onClick={this.toggleExpand('expense', i)} key={expense['transaction_id']}>
                             <div style={{ width: '40px',marginBottom: '5px'}}>{ this.formatDate(expense['date']) }</div>
                             <div style={{ maxWidth: '245px', marginRight: 'auto', marginLeft: '15px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -219,7 +219,7 @@ class TransactionListView extends Component {
                             </div>
                             <div style={{ width: '50px', marginLeft: '15px' }} onClick={this.handleDelete(expense)}>X</div>
                         </div>
-                    </>)
+                    </div>)
                 )}
             </div>
         )

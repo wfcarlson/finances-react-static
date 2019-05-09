@@ -91,7 +91,7 @@ export default class MonthNavigation extends Component {
     }
 
     setDate = (date) => {
-      this.props.setDate(new Date(date.getTime()));
+      this.props.setDate(new Date(date.getTime()), this.props.callback);
     }
     
     render() {
@@ -104,8 +104,6 @@ export default class MonthNavigation extends Component {
 
       var nextDate = new Date(this.state.selected_date.getTime());
       nextDate.setMonth(nextDate.getMonth() + 1);
-
-      var today = new Date();
 
       return (
         <div>
