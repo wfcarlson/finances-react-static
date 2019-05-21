@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Tappable from 'react-tappable/lib/Tappable';
 require('create-react-class');
 
 class BirdDetectionComponent extends Component {

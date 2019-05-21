@@ -114,7 +114,7 @@ class FinancesView extends Component {
             return 0;
         })
 
-        updateTransactions(incomes, expenses);
+        this.props.updateTransactions(incomes, expenses);
 
         this.setState(
             {
@@ -128,8 +128,7 @@ class FinancesView extends Component {
         )
     }
 
-    getTransactions = (updateTransactions) => {
-
+    getTransactions = () => {
 		var data = {
 			method: "GET",
 			headers: {
@@ -145,7 +144,7 @@ class FinancesView extends Component {
             .then((data) => { 
                 data.json()
                     .then((data) => { 
-                        this.sortAndSaveData(data, updateTransactions);
+                        this.sortAndSaveData(data);
                     }) 
             })
             .catch(err => { alert(err); });

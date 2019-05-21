@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
 import { API_ROOT } from '../../config.js';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import { TextField } from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import Clear from '@material-ui/icons/Clear';
+
+
 
 class TransactionListView extends Component {
 
@@ -33,8 +46,7 @@ class TransactionListView extends Component {
     }
 
     setEdit = (transaction) => {
-        return (event) => {
-            event.stopPropagation();
+        return () => {
             this.setState({editing: transaction});
         }
     }
@@ -48,9 +60,17 @@ class TransactionListView extends Component {
         }
     }
 
-    saveEdit = (event) => {
-        event.stopPropagation();
-     
+    handlePanelChange = transaction => () => {
+        if (this.state.expanded === transaction)
+        {
+            this.setState({editing: "", expanded: ""})
+        }
+        else {
+            this.setState({expanded: transaction})
+        }
+    };
+
+    saveEdit = () => {     
         var data = {
             method: "PATCH",
             headers: {
@@ -77,150 +97,130 @@ class TransactionListView extends Component {
         return '' + nums[1] + '-' + nums[2];
     }
 
-    toggleExpand = (transaction_type, i) => {
-        return () => {
-            var id = '#' + transaction_type + '_' + i + '_info';
-            if (id === this.state.expanded) 
-            {
-                var myElement = document.querySelector(id);
-                myElement.style.height = '0px';
-                this.setState({expanded: ''})
-            }
-            else {
-                if (this.state.expanded) {
-                    var myElement = document.querySelector(this.state.expanded);
-                    myElement.style.height = '0px';
-                }
-
-                var myElement = document.querySelector(id);
-                myElement.style.height = 'auto';
-                this.setState({expanded: id})
-            }
+    formatName = (name) => {
+        if (name.length <= 40) {
+            return name;
+        }
+        else {
+            return name.substring(0, 38) + '...'
         }
     }
 
-    suppressClick = (event) => {
-        event.stopPropagation();
+    renderTransaction = (transaction, transaction_type) => {
+        return (
+            <ExpansionPanel key={ transaction.transaction_id } expanded={this.state.expanded === transaction} onChange={this.handlePanelChange(transaction)}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    { this.state.editing.transaction_id === transaction.transaction_id ?
+                        (
+                            <>
+                                <TextField 
+                                    id={ transaction.transaction_id + "_name_field" }
+                                    label='name'
+                                    value={this.state.editing.name}
+                                    onChange={this.handleEdit('name')}
+                                    onClick={(event) => event.stopPropagation() }
+                                    style={{ width: '100%' }}
+                                />
+                                <TextField 
+                                    id={ transaction.transaction_id + "_amount_field" }
+                                    label='amount'
+                                    value={this.state.editing.amount}
+                                    onChange={this.handleEdit('amount')}
+                                    onClick={(event) => event.stopPropagation() }
+                                    style={{ width: '100%' }}
+                                />
+                                <IconButton color="inherit" onClick={this.handleDelete(transaction)}>
+                                    <Clear />
+                                </IconButton>
+                            </>
+                        )  
+                            :   
+                        (   <>
+                                <Typography variant="subtitle1">{ this.formatName(transaction.name) }</Typography>
+                                <div style={{flexGrow: 1}} />
+                                <Typography variant="subtitle1">{ transaction.amount }</Typography>
+                            </>
+                        )
+                    }
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    { this.state.editing.transaction_id === transaction.transaction_id ?
+                        (
+                            <>
+                            { transaction_type === 'income' ? 
+                                (
+                                    <Select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') } >
+                                        <MenuItem value="other">Other</MenuItem>
+                                        <MenuItem value="primary income">Primary Income</MenuItem>
+                                        <MenuItem value="tax return">Tax Return</MenuItem>
+                                        <MenuItem value="bonus income">Bonus Income</MenuItem>
+                                    </Select>
+                                )
+                                :
+                                (
+                                    <Select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') } >
+                                        <MenuItem value="other">Other</MenuItem>
+                                        <MenuItem value="rent/parking">Rent/Parking</MenuItem>
+                                        <MenuItem value="utilities">Utilities</MenuItem>
+                                        <MenuItem value="car payment">Car Payment</MenuItem>
+                                        <MenuItem value="car insurance">Car Insurance</MenuItem>
+                                        <MenuItem value="gas/transportation">Gas/Transportation</MenuItem>
+                                        <MenuItem value="food out">Food Out</MenuItem>
+                                        <MenuItem value="alcohol">Alcohol</MenuItem>
+                                        <MenuItem value="groceries">Groceries</MenuItem>
+                                        <MenuItem value="subscriptions">Subscriptions</MenuItem>
+                                        <MenuItem value="personal care">Personal Care</MenuItem>
+                                        <MenuItem value="phone bill">Phone Bill</MenuItem>
+                                        <MenuItem value="gym">Gym</MenuItem>
+                                        <MenuItem value="entertainment">Entertainment</MenuItem>
+                                        <MenuItem value="discretionary">Discretionary</MenuItem>
+                                    </Select>
+                                )
+                            }
+                                <div style={{flexGrow: 1}} />
+                                <TextField 
+                                    id="date_field"
+                                    label='date'
+                                    value={this.state.editing.date}
+                                    onChange={this.handleEdit('date')}
+                                    style={{ width: '100%' }}
+                                />
+                                <div style={{flexGrow: 1}} />
+                                <Button onClick={this.saveEdit}>Save</Button>
+                            </>
+                        )  
+                            :   
+                        (   
+                            <>
+                                <Typography variant="subtitle1">{ transaction.finances_category }</Typography>
+                                <div style={{flexGrow: 1}} />
+                                <Typography variant="subtitle1">{ this.formatDate(transaction.date) }</Typography>
+                                <div style={{flexGrow: 1}} />
+                                <Button onClick={this.setEdit(transaction)}>Edit</Button>
+                            </>
+                        )
+                    }
+
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
+        );
     }
 
     render () {
         return (
             <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }} >
                 <h1>Incomes</h1>
-                <div style={{ marginRight: '10px', marginLeft: '10px', marginBottom: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'row', borderBottom: '2px solid black'}} >
-                    <div style={{ width: '40px',marginBottom: '5px'}}>Date</div>
-                    <div style={{ maxWidth: '195px', marginRight: 'auto', marginLeft: '15px' }}>Name</div>
-                    <div style={{ width: '50px', marginLeft: '15px'}}>Amount</div>
-                </div>
-                {this.props.incomes.map((income, i) => 
-                    
-                    (<div key={"income_" + i}>
-                        <div style={{ marginRight: '10px', marginLeft: '10px', cursor:'pointer', display: 'flex', flexDirection: 'row' }} onClick={this.toggleExpand('income', i)} key={income['transaction_id']}>
-                            <div style={{ width: '40px',marginBottom: '5px'}}>{ this.formatDate(income['date']) }</div>
-                            <div style={{ maxWidth: '245px', marginRight: 'auto', marginLeft: '15px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                { this.state.editing.transaction_id === income.transaction_id ? 
-                                    (
-                                        <input onClick={ this.suppressClick } type='text' value={this.state.editing.name} onChange={ this.handleEdit('name') }></input>
-                                    )
-                                        :
-                                    ( income['name'] )
-                                }
-                            </div>
-                            <div style={{ width: '50px', marginLeft: '15px'}}>{income['amount']}</div>
-                        </div>
-                        <div style={{ marginRight: '10px', marginLeft: '10px', marginBottom: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'row', borderBottom: '2px solid lightgrey'}} onClick={this.toggleExpand(i)} className="expander" id={'income_' + i + '_info'}>
-                            <div style={{ width: '40px', marginBottom: '5px'}}>
-                                { this.state.editing.transaction_id === income.transaction_id ? 
-                                    (
-                                        <button onClick={this.saveEdit}>Save</button>
-                                    )
-                                        :
-                                    (
-                                        <button onClick={this.setEdit(income)}>Edit</button>
-                                    )
-                                }
-                            </div>
-                            <div style={{ maxWidth: '195px', marginRight: 'auto', marginLeft: '15px'}}>
-                                { this.state.editing.transaction_id === income.transaction_id ?
-                                    (
-                                        <select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') } onClick={ this.suppressClick }>
-                                            <option value="other">Other</option>
-                                            <option value="primary income">Primary Income</option>
-                                            <option value="tax return">Tax Return</option>
-                                            <option value="bonus income">Bonus Income</option>
-                                        </select>
-                                    )
-                                        :
-                                    (income['finances_category'])
-                                }
-                            </div>
-                            <div style={{ width: '50px', marginLeft: '15px' }} onClick={this.handleDelete(income)}>X</div>
-                        </div>
-                    </div>)
-                )}
-                <h1 id="expenses">Expenses</h1>
-                <div style={{ marginRight: '10px', marginLeft: '10px', marginBottom: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'row', borderBottom: '2px solid black'}} >
-                    <div style={{ width: '40px',marginBottom: '5px'}}>Date</div>
-                    <div style={{ maxWidth: '195px', marginRight: 'auto', marginLeft: '15px' }}>Name</div>
-                    <div style={{ width: '50px', marginLeft: '15px'}}>Amount</div>
-                </div>
-                {this.props.expenses.map((expense, i) => 
-
-                    (<div key={"expense_" + i}>
-                        <div style={{ marginRight: '10px', marginLeft: '10px', cursor:'pointer', display: 'flex', flexDirection: 'row' }} onClick={this.toggleExpand('expense', i)} key={expense['transaction_id']}>
-                            <div style={{ width: '40px',marginBottom: '5px'}}>{ this.formatDate(expense['date']) }</div>
-                            <div style={{ maxWidth: '245px', marginRight: 'auto', marginLeft: '15px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                { this.state.editing.transaction_id === expense.transaction_id ? 
-                                    (
-                                        <input onClick={ this.suppressClick } type='text' value={this.state.editing.name} onChange={ this.handleEdit('name') }></input>
-                                    )
-                                        :
-                                    ( expense['name'] )
-                                }
-                            </div>
-                            <div style={{ width: '50px', marginLeft: '15px'}}>{expense['amount']}</div>
-                        </div>
-                        <div style={{ marginRight: '10px', marginLeft: '10px', marginBottom: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'row', borderBottom: '2px solid lightgrey'}} onClick={this.toggleExpand(i)} className="expander" id={'expense_' + i + '_info'}>
-                            <div style={{ width: '40px', marginBottom: '5px'}}>
-                                { this.state.editing.transaction_id === expense.transaction_id ? 
-                                    (
-                                        <button onClick={this.saveEdit}>Save</button>
-                                    )
-                                        :
-                                    (
-                                        <button onClick={this.setEdit(expense)}>Edit</button>
-                                    )
-                                }
-                            </div>
-                            <div style={{ maxWidth: '195px', marginRight: 'auto', marginLeft: '15px'}}>
-                                { this.state.editing.transaction_id === expense.transaction_id ?
-                                    (
-                                        <select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') } onClick={ this.suppressClick }>
-                                            <option value="other">Other</option>
-                                            <option value="rent/parking">Rent/Parking</option>
-                                            <option value="utilities">Utilities</option>
-                                            <option value="car payment">Car Payment</option>
-                                            <option value="car insurance">Car Insurance</option>
-                                            <option value="gas/transportation">Gas/Transportation</option>
-                                            <option value="food out">Food Out</option>
-                                            <option value="alcohol">Alcohol</option>
-                                            <option value="groceries">Groceries</option>
-                                            <option value="subscriptions">Subscriptions</option>
-                                            <option value="personal care">Personal Care</option>
-                                            <option value="phone bill">Phone Bill</option>
-                                            <option value="gym">Gym</option>
-                                            <option value="entertainment">Entertainment</option>
-                                            <option value="discretionary">Discretionary</option>
-                                        </select>
-                                    )
-                                        :
-                                    (expense['finances_category'])
-                                }
-                            </div>
-                            <div style={{ width: '50px', marginLeft: '15px' }} onClick={this.handleDelete(expense)}>X</div>
-                        </div>
-                    </div>)
-                )}
+                { this.props.incomes.map((income) => {
+                            return this.renderTransaction(income, 'income')
+                        }
+                    )
+                }
+                <h1>Expenses</h1>
+                { this.props.expenses.map((expense) => {
+                            return this.renderTransaction(expense, 'expense')
+                        }
+                    )
+                }
             </div>
         )
     }

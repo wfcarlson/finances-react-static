@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import LoginComponent from './LoginComponent.js';
-import BirdDetectionComponent from './BirdDetectionComponent.js';
 import FinancesView from './finances/FinancesView.js';
 import Header from './header/Header.js';
 import './App.css';
@@ -65,13 +64,12 @@ class App extends Component {
   } 
 
   updateTransactions = (incomes, expenses) => {
-    console.log("update")
     this.setState({incomes: incomes.sort(this.compareByDate), expenses: expenses.sort(this.compareByDate)})
   }
 
   render() {
     return (
-      <div className="App">
+      <div id="#" className="App">
         { this.state.token ? 
           <>
             <Header 
@@ -98,7 +96,6 @@ class App extends Component {
           (
           <div>
             <LoginComponent submit={this.submit} /> 
-            <BirdDetectionComponent />
           </div>
           )
         }

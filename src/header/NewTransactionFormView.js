@@ -86,7 +86,7 @@ class NewTransactionFormView extends Component {
                         var incomes = this.props.incomes;
                         var expenses = this.props.expenses;
 
-                        if (this.state.type == 'income')
+                        if (this.state.type === 'income')
                         {
                             incomes = incomes.push(transaction)
                         }

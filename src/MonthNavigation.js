@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+
 export default class MonthNavigation extends Component {
 
     constructor(props) {
@@ -109,15 +110,15 @@ export default class MonthNavigation extends Component {
         <div>
           <ul className="pagination">
             <li className='enabled'>
-                <a onClick={ () => { this.setDate(prevDate) }}>Previous</a>
+                <a href={ "#" + prevDate.getMonth() } onClick={ (e) => { e.preventDefault(); this.setDate(prevDate) }}>Previous</a>
             </li>
             {months.map((date, index) =>
                 <li key={index} className={this.state.selected_date.getMonth() === date.getMonth() ? 'active enabled' : 'enabled'}>
-                    <a onClick={ () => this.setDate(date) }> { this.getMonthString(date.getMonth()) } </a>
+                    <a href={ "#" + date.getMonth() } onClick={ (e) => { e.preventDefault(); this.setDate(date) } }> { this.getMonthString(date.getMonth()) } </a>
                 </li>
             )}
             <li className={ hasNext ? 'enabled' : 'disabled'}>
-                <a onClick={() => { if (hasNext){ this.setDate(nextDate)}}}>Next</a>
+                <a href={ "#" + nextDate.getMonth() }  onClick={(e) => { e.preventDefault(); if (hasNext){ this.setDate(nextDate)}}}>Next</a>
             </li>
           </ul>
         </div>
