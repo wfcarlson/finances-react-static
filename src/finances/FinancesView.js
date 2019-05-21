@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import MonthNavigation from '../MonthNavigation.js';
-import NewTransactionFormView from './views/NewTransactionFormView.js';
 import TotalsView from './views/TotalsView.js';
 import TransactionListView from './views/TransactionListView.js';
 import { API_ROOT } from '../config.js';
@@ -9,14 +8,13 @@ class FinancesView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            incomes: [],
-            expenses: [],
+            incomes: props.incomes,
+            expenses: props.expenses,
             credit_payments: [],
             savings_transfers: [],
             income_total: 0,
             expense_total: 0,
-            month: new Date(),
-            nav_date: new Date(),
+            nav_date: this.props.nav_date,
             income_categories: {
                 "other": 0
             },
@@ -37,42 +35,12 @@ class FinancesView extends Component {
                 "other": 0
             },
         }
-        this.getTransactions();
+        this.getTransactions(props.updateTransactions);
 
     }
 
-    months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ]
 
-    setDate = (date) => {
-        this.setState({ nav_date: date }, () => {
-            this.getTransactions();
-        });
-    }
-
-    compareByDate = (a, b) => {
-        var date1 = new Date(a['date']);
-        var date2 = new Date(b['date']);
-
-        if (date1 < date2) return -1;
-        if (date1 === date2) return 0;
-        return 1;
-
-    } 
-
-    sortAndSaveData = (data) => {
+    sortAndSaveData = (data, updateTransactions) => {
 
         var incomes = []
         var expenses = []
@@ -146,12 +114,12 @@ class FinancesView extends Component {
             return 0;
         })
 
+        this.props.updateTransactions(incomes, expenses);
+
         this.setState(
             {
-                incomes: incomes.sort(this.compareByDate),
-                expenses: expenses.sort(this.compareByDate),
-                savings_transfers: savings_transfers.sort(this.compareByDate),
-                credit_payments: credit_payments.sort(this.compareByDate),
+                savings_transfers: savings_transfers,
+                credit_payments: credit_payments,
                 income_total: Math.round(income_total * 100) / 100,
                 expense_total: Math.round(expense_total * 100) / 100,
                 income_categories: income_categories,
@@ -161,7 +129,6 @@ class FinancesView extends Component {
     }
 
     getTransactions = () => {
-
 		var data = {
 			method: "GET",
 			headers: {
@@ -171,7 +138,7 @@ class FinancesView extends Component {
 			mode: 'cors',
         };
         
-        var query = '?month=' + (this.state.nav_date.getMonth() + 1) + '&year=' + (this.state.nav_date.getFullYear());
+        var query = '?month=' + (this.props.nav_date.getMonth() + 1) + '&year=' + (this.props.nav_date.getFullYear());
 
         fetch(API_ROOT + '/transactions/' + query, data)
             .then((data) => { 
@@ -186,22 +153,18 @@ class FinancesView extends Component {
 
 
     render() {
-
+        
         return (
             <div>
                 <div className='container'>
                     <div className="row">
-                        <div className='col-lg-6' >
-                            <NewTransactionFormView nav_date={this.state.nav_date} token={this.props.token} getTransactions={this.getTransactions} />
-
-                        </div>
                         <div className='col-lg-6'>
-                            <TotalsView token={this.props.token} month={this.months[this.state.nav_date.getMonth()]} year={this.state.nav_date.getFullYear()} expense_categories={this.state.expense_categories} expense_total={this.state.expense_total} income_total={this.state.income_total} getTransactions={this.getTransactions}/>
+                            <TotalsView token={this.props.token} month={this.props.months[this.props.nav_date.getMonth()]} year={this.props.nav_date.getFullYear()} expense_categories={this.state.expense_categories} expense_total={this.state.expense_total} income_total={this.state.income_total} getTransactions={this.getTransactions}/>
                         </div>
                     </div>
                 </div>
-                <TransactionListView incomes={this.state.incomes} expenses={this.state.expenses} token={this.props.token} getTransactions={this.getTransactions}/>
-                <MonthNavigation setDate={this.setDate} selected_date={this.state.nav_date}/>
+                <TransactionListView incomes={this.props.incomes} expenses={this.props.expenses} token={this.props.token} getTransactions={this.getTransactions}/>
+                <MonthNavigation setDate={this.props.setDate} selected_date={this.props.nav_date} callback={this.getTransactions} />
             </div>
         );
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AutoScaling } from 'aws-sdk';
+
 
 class TotalsView extends Component {
 
