@@ -32,7 +32,7 @@ class TotalsView extends Component {
     expense_budget_categories = {
         "rent/parking": 1367.95,
         "utilities": 213.00,
-        "car payment": 350,
+        "car payment": 300,
         "car insurance": 200,
         "gas/transportation": 100,
         "food out": 300,
@@ -43,7 +43,7 @@ class TotalsView extends Component {
         "gym": 60,
         "entertainment": 200,
         "discretionary": 300,
-        "other": 0
+        "other": 50
     }
 
     renderCategories = (dict, total) => {
