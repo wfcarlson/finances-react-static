@@ -102,7 +102,7 @@ class TotalsView extends Component {
 
         return (
             <div>
-                <h1>Totals: {this.props.month}, {this.props.year}</h1>
+                <h1>{this.props.month} {this.props.year}</h1>
                 <div>
                 <table style={{ width: '100%' }}>
                     <thead>

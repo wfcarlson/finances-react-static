@@ -11,6 +11,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Clear from '@material-ui/icons/Clear';
+import Grid from '@material-ui/core/Grid';
 
 
 
@@ -112,33 +113,21 @@ class TransactionListView extends Component {
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     { this.state.editing.transaction_id === transaction.transaction_id ?
                         (
-                            <>
-                                <TextField 
-                                    id={ transaction.transaction_id + "_name_field" }
-                                    label='name'
-                                    value={this.state.editing.name}
-                                    onChange={this.handleEdit('name')}
-                                    onClick={(event) => event.stopPropagation() }
-                                    style={{ width: '100%' }}
-                                />
-                                <TextField 
-                                    id={ transaction.transaction_id + "_amount_field" }
-                                    label='amount'
-                                    value={this.state.editing.amount}
-                                    onChange={this.handleEdit('amount')}
-                                    onClick={(event) => event.stopPropagation() }
-                                    style={{ width: '100%' }}
-                                />
-                                <IconButton color="inherit" onClick={this.handleDelete(transaction)}>
-                                    <Clear />
-                                </IconButton>
-                            </>
+                            <TextField 
+                                id={ transaction.transaction_id + "_name_field" }
+                                label='name'
+                                value={this.state.editing.name}
+                                onChange={this.handleEdit('name')}
+                                onClick={(event) => event.stopPropagation() }
+                                style={{ width: '60%' }}
+                                multiline={true}
+                            />
                         )  
                             :   
                         (   <>
-                                <Typography variant="subtitle1">{ this.formatName(transaction.name) }</Typography>
+                                <Typography variant="heading5" align="left">{ this.formatName(transaction.name) }</Typography>
                                 <div style={{flexGrow: 1}} />
-                                <Typography variant="subtitle1">{ transaction.amount }</Typography>
+                                <Typography variant="heading6">{ transaction.amount }</Typography>
                             </>
                         )
                     }
@@ -146,61 +135,78 @@ class TransactionListView extends Component {
                 <ExpansionPanelDetails>
                     { this.state.editing.transaction_id === transaction.transaction_id ?
                         (
-                            <>
-                            { transaction_type === 'income' ? 
-                                (
-                                    <Select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') } >
-                                        <MenuItem value="other">Other</MenuItem>
-                                        <MenuItem value="primary income">Primary Income</MenuItem>
-                                        <MenuItem value="tax return">Tax Return</MenuItem>
-                                        <MenuItem value="bonus income">Bonus Income</MenuItem>
-                                    </Select>
-                                )
-                                :
-                                (
-                                    <Select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') } >
-                                        <MenuItem value="other">Other</MenuItem>
-                                        <MenuItem value="rent/parking">Rent/Parking</MenuItem>
-                                        <MenuItem value="utilities">Utilities</MenuItem>
-                                        <MenuItem value="car payment">Car Payment</MenuItem>
-                                        <MenuItem value="car insurance">Car Insurance</MenuItem>
-                                        <MenuItem value="gas/transportation">Gas/Transportation</MenuItem>
-                                        <MenuItem value="food out">Food Out</MenuItem>
-                                        <MenuItem value="alcohol">Alcohol</MenuItem>
-                                        <MenuItem value="groceries">Groceries</MenuItem>
-                                        <MenuItem value="subscriptions">Subscriptions</MenuItem>
-                                        <MenuItem value="personal care">Personal Care</MenuItem>
-                                        <MenuItem value="phone bill">Phone Bill</MenuItem>
-                                        <MenuItem value="gym">Gym</MenuItem>
-                                        <MenuItem value="entertainment">Entertainment</MenuItem>
-                                        <MenuItem value="discretionary">Discretionary</MenuItem>
-                                    </Select>
-                                )
-                            }
-                                <div style={{flexGrow: 1}} />
-                                <TextField 
-                                    id="date_field"
-                                    label='date'
-                                    value={this.state.editing.date}
-                                    onChange={this.handleEdit('date')}
-                                    style={{ width: '100%' }}
-                                />
-                                <div style={{flexGrow: 1}} />
-                                <Button onClick={this.saveEdit}>Save</Button>
-                            </>
+                            <Grid container direction="column">
+                                <Grid item>
+                                    <TextField 
+                                        id={ transaction.transaction_id + "_amount_field" }
+                                        label='amount'
+                                        value={this.state.editing.amount}
+                                        onChange={this.handleEdit('amount')}
+                                        onClick={(event) => event.stopPropagation() }
+                                        style={{ width: '20%' }}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    { transaction_type === 'income' ? 
+                                        (
+                                            <Select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') } >
+                                                <MenuItem value="other">Other</MenuItem>
+                                                <MenuItem value="primary income">Primary Income</MenuItem>
+                                                <MenuItem value="tax return">Tax Return</MenuItem>
+                                                <MenuItem value="bonus income">Bonus Income</MenuItem>
+                                            </Select>
+                                        )
+                                        :
+                                        (
+                                            <Select value={this.state.editing.finances_category} onChange={ this.handleEdit('finances_category') } >
+                                                <MenuItem value="other">Other</MenuItem>
+                                                <MenuItem value="rent/parking">Rent/Parking</MenuItem>
+                                                <MenuItem value="utilities">Utilities</MenuItem>
+                                                <MenuItem value="car payment">Car Payment</MenuItem>
+                                                <MenuItem value="car insurance">Car Insurance</MenuItem>
+                                                <MenuItem value="gas/transportation">Gas/Transportation</MenuItem>
+                                                <MenuItem value="food out">Food Out</MenuItem>
+                                                <MenuItem value="alcohol">Alcohol</MenuItem>
+                                                <MenuItem value="groceries">Groceries</MenuItem>
+                                                <MenuItem value="subscriptions">Subscriptions</MenuItem>
+                                                <MenuItem value="personal care">Personal Care</MenuItem>
+                                                <MenuItem value="phone bill">Phone Bill</MenuItem>
+                                                <MenuItem value="gym">Gym</MenuItem>
+                                                <MenuItem value="entertainment">Entertainment</MenuItem>
+                                                <MenuItem value="discretionary">Discretionary</MenuItem>
+                                            </Select>
+                                        )
+                                    }
+                                </Grid>
+                                <Grid item>
+                                    <TextField 
+                                        id="date_field"
+                                        label='date'
+                                        value={this.state.editing.date}
+                                        onChange={this.handleEdit('date')}
+                                        style={{ width: '160px' }}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <IconButton color="inherit" onClick={this.handleDelete(transaction)}>
+                                        <Clear />
+                                    </IconButton>
+                                    <div style={{flexGrow: 1}} />
+                                    <Button onClick={this.saveEdit}>Save</Button>
+                                </Grid>
+                            </Grid>
                         )  
                             :   
                         (   
                             <>
-                                <Typography variant="subtitle1">{ transaction.finances_category }</Typography>
+                                <Typography variant="heading6">{ transaction.finances_category }</Typography>
                                 <div style={{flexGrow: 1}} />
-                                <Typography variant="subtitle1">{ this.formatDate(transaction.date) }</Typography>
+                                <Typography variant="heading6">{ this.formatDate(transaction.date) }</Typography>
                                 <div style={{flexGrow: 1}} />
                                 <Button onClick={this.setEdit(transaction)}>Edit</Button>
                             </>
                         )
                     }
-
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         );
