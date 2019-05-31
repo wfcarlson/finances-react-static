@@ -32,10 +32,10 @@ class TotalsView extends Component {
     expense_budget_categories = {
         "rent/parking": 1367.95,
         "utilities": 213.00,
-        "car payment": 400,
+        "car payment": 350,
         "car insurance": 200,
-        "gas/transportation": 150,
-        "food out": 200,
+        "gas/transportation": 100,
+        "food out": 300,
         "alcohol": 150,
         "groceries": 300,
         "subscriptions": 61,
