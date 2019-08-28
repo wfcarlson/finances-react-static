@@ -173,18 +173,20 @@ class NewTransactionFormView extends Component {
                                     style={{ width: '100%' }}
                                 >
                                     <MenuItem value="other">Other</MenuItem>
-                                    <MenuItem value="rent/parking">Rent/Parking</MenuItem>
+                                    <MenuItem value="rent">Rent</MenuItem>
                                     <MenuItem value="utilities">Utilities</MenuItem>
+                                    <MenuItem value="parking">Parking</MenuItem>
                                     <MenuItem value="car payment">Car Payment</MenuItem>
                                     <MenuItem value="car insurance">Car Insurance</MenuItem>
-                                    <MenuItem value="gas/transportation">Gas/Transportation</MenuItem>
-                                    <MenuItem value="food out">Food Out</MenuItem>
-                                    <MenuItem value="alcohol">Alcohol</MenuItem>
+                                    <MenuItem value="car maintenance">Car Maintenance</MenuItem>
+                                    <MenuItem value="gas">Gas</MenuItem>
+                                    <MenuItem value="food out and alcohol out">Food and Alcohol out</MenuItem>
                                     <MenuItem value="groceries">Groceries</MenuItem>
                                     <MenuItem value="subscriptions">Subscriptions</MenuItem>
-                                    <MenuItem value="personal care">Personal Care</MenuItem>
-                                    <MenuItem value="phone bill">Phone Bill</MenuItem>
-                                    <MenuItem value="gym">Gym</MenuItem>
+                                    <MenuItem value="health care">Health care</MenuItem>
+                                    <MenuItem value="gym memberships">Gym Memberships</MenuItem>
+                                    <MenuItem value="clothing">Clothing</MenuItem>
+                                    <MenuItem value="haircuts">Haircuts</MenuItem>
                                     <MenuItem value="entertainment">Entertainment</MenuItem>
                                     <MenuItem value="discretionary">Discretionary</MenuItem>
                                 </Select>

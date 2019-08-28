@@ -7,20 +7,24 @@ class TotalsView extends Component {
         super(props);
         this.state = {
             expense_categories: {
-                "rent/parking": 0,
+                "rent": 0,
                 "utilities": 0,
-                "car payment": 0,
+                "parking": 0,
+                "uber": 0,
                 "car insurance": 0,
-                "gas/transportation": 0,
-                "food out": 0,
-                "alcohol": 0,
+                "car payment": 0,
+                "car maintenance": 0,
+                "gas": 0,
+                "food and alcohol out": 0,
                 "groceries": 0,
                 "subscriptions": 0,
-                "personal care": 0,
-                "gym": 0,
+                "health care": 0,
+                "clothing": 0,
+                "haircuts": 0,
+                "gym memberships": 0,
                 "entertainment": 0,
                 "discretionary": 0,
-                "other": 0
+                "other": 0,
             },
             income_categories: {
                 "other": 0
@@ -30,20 +34,24 @@ class TotalsView extends Component {
 
 
     expense_budget_categories = {
-        "rent/parking": 1367.95,
-        "utilities": 213.00,
-        "car payment": 300,
-        "car insurance": 200,
-        "gas/transportation": 100,
-        "food out": 300,
-        "alcohol": 150,
+        "rent": 1443.50,
+        "utilities": 150,
+        "parking": 20,
+        "uber": 40,
+        "car insurance": 150,
+        "car payment": 285,
+        "car maintenance": 100,
+        "gas": 65,
+        "food and alcohol out": 400,
         "groceries": 300,
-        "subscriptions": 61,
-        "personal care": 120,
-        "gym": 60,
+        "subscriptions": 16.48,
+        "health care": 100,
+        "clothing": 100,
+        "haircuts": 30,
+        "gym memberships": 231,
         "entertainment": 200,
-        "discretionary": 300,
-        "other": 50
+        "discretionary": 250,
+        "other": 0
     }
 
     renderCategories = (dict, total) => {

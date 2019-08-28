@@ -19,20 +19,24 @@ class FinancesView extends Component {
                 "other": 0
             },
             expense_categories: {
-                "rent/parking": 0,
+                "rent": 0,
                 "utilities": 0,
-                "car payment": 0,
+                "parking": 0,
+                "uber": 0,
                 "car insurance": 0,
-                "gas/transportation": 0,
-                "food out": 0,
-                "alcohol": 0,
+                "car payment": 0,
+                "car maintenance": 0,
+                "gas": 0,
+                "food and alcohol out": 0,
                 "groceries": 0,
                 "subscriptions": 0,
-                "personal care": 0,
-                "gym": 0,
+                "health care": 0,
+                "clothing": 0,
+                "haircuts": 0,
+                "gym memberships": 0,
                 "entertainment": 0,
                 "discretionary": 0,
-                "other": 0
+                "other": 0,
             },
         }
         this.getTransactions(props.updateTransactions);
@@ -54,20 +58,24 @@ class FinancesView extends Component {
         }
         
         var expense_categories = {
-            "rent/parking": 0,
+            "rent": 0,
             "utilities": 0,
-            "car payment": 0,
+            "parking": 0,
+            "uber": 0,
             "car insurance": 0,
-            "gas/transportation": 0,
-            "food out": 0,
-            "alcohol": 0,
+            "car payment": 0,
+            "car maintenance": 0,
+            "gas": 0,
+            "food and alcohol out": 0,
             "groceries": 0,
             "subscriptions": 0,
-            "personal care": 0,
-            "gym": 0,
+            "health care": 0,
+            "clothing": 0,
+            "haircuts": 0,
+            "gym memberships": 0,
             "entertainment": 0,
             "discretionary": 0,
-            "other": 0
+            "other": 0,
         }
 
         data.map((transaction) => {
