@@ -176,11 +176,12 @@ class NewTransactionFormView extends Component {
                                     <MenuItem value="rent">Rent</MenuItem>
                                     <MenuItem value="utilities">Utilities</MenuItem>
                                     <MenuItem value="parking">Parking</MenuItem>
+                                    <MenuItem value="uber">Uber</MenuItem>
                                     <MenuItem value="car payment">Car Payment</MenuItem>
                                     <MenuItem value="car insurance">Car Insurance</MenuItem>
                                     <MenuItem value="car maintenance">Car Maintenance</MenuItem>
                                     <MenuItem value="gas">Gas</MenuItem>
-                                    <MenuItem value="food out and alcohol out">Food and Alcohol out</MenuItem>
+                                    <MenuItem value="food and alcohol out">Food and Alcohol Out</MenuItem>
                                     <MenuItem value="groceries">Groceries</MenuItem>
                                     <MenuItem value="subscriptions">Subscriptions</MenuItem>
                                     <MenuItem value="health care">Health care</MenuItem>
