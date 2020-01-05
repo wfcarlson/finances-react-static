@@ -44,7 +44,7 @@ class FinancesView extends Component {
     }
 
 
-    sortAndSaveData = (data, updateTransactions) => {
+    sortAndSaveData = (data) => {
 
         var incomes = []
         var expenses = []
@@ -79,6 +79,7 @@ class FinancesView extends Component {
         }
 
         data.map((transaction) => {
+
             if (transaction['type'] === 'income') {
                 income_total += transaction['amount'];
                 incomes.push(transaction);
@@ -96,7 +97,7 @@ class FinancesView extends Component {
                     income_categories["other"] += transaction['amount']
                 }
             }
-            else if (transaction['type'] === "debit card expense" || transaction['type'] === 'credit card expense' || transaction['type'] === 'cash') {
+            else if (transaction['type'] === "debit card expense" || transaction['type'] === 'credit card expense' || transaction['type'] === 'cash expense') {
                 expense_total += transaction['amount'];
                 expenses.push(transaction);
 
@@ -137,6 +138,7 @@ class FinancesView extends Component {
     }
 
     getTransactions = () => {
+
 		var data = {
 			method: "GET",
 			headers: {
@@ -161,7 +163,6 @@ class FinancesView extends Component {
 
 
     render() {
-        
         return (
             <div>
                 <div className='container'>

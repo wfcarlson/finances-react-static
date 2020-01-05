@@ -32,7 +32,7 @@ class NewTransactionFormView extends Component {
     }
         
     submit = () => {
-        var date_str = '' + new Date().getFullYear() + '-'
+        var date_str = '' + this.props.nav_date.getFullYear() + '-'
         var day;
         var month = this.props.nav_date.getMonth() + 1;
         var month_str = ''

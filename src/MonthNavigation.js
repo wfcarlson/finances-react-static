@@ -88,7 +88,6 @@ export default class MonthNavigation extends Component {
 
     hasPreviousMonth = () => {
       return true;
-      //(this.state.selected_date.getFullYear() > this.state.start_date.getFullYear()) || (this.state.selected_date.getFullYear() === this.state.start_date.getFullYear() && this.state.selected_date.getMonth() > this.state.start_date.getMonth());
     }
 
     setDate = (date) => {
